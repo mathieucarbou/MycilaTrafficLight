@@ -11,6 +11,10 @@
   #include <ArduinoJson.h>
 #endif
 
+#ifdef MYCILA_NEOPIXEL_SUPPORT
+  #include <Adafruit_NeoPixel.h>
+#endif
+
 #define MYCILA_TRAFFIC_LIGHT_VERSION          "1.0.0"
 #define MYCILA_TRAFFIC_LIGHT_VERSION_MAJOR    1
 #define MYCILA_TRAFFIC_LIGHT_VERSION_MINOR    0
@@ -27,10 +31,15 @@ namespace Mycila {
 
     public:
       bool begin(const int8_t greenPin, const int8_t yellowPin, const int8_t redPin);
+
+#ifdef MYCILA_NEOPIXEL_SUPPORT
+      bool begin(const int8_t neoPin, const size_t neoCount = 3, const neoPixelType neoType = NEO_GRB + NEO_KHZ800);
+#endif
+
       void end();
 
       // indicates whether the traffic light is enabled with backed GPIO pins
-      bool isEnabled() const { return _gpioEnabled; }
+      bool isEnabled() const;
 
       inline void setAllOn() { set(State::ON, State::ON, State::ON); }
       inline void setAllOff() { set(State::OFF, State::OFF, State::OFF); }
@@ -39,6 +48,10 @@ namespace Mycila {
       inline void setYellow(bool state) { set(State::NONE, state ? State::ON : State::OFF, State::NONE); }
       inline void setRed(bool state) { set(State::NONE, State::NONE, state ? State::ON : State::OFF); }
       void set(State green, State yellow, State red);
+
+      // set the brightness of the NeoPixel strip
+      // No-op for GPIO pins
+      void setBrightness(const float brightness);
 
       State getGreen() const { return _green ? State::ON : State::OFF; }
       State getYellow() const { return _yellow ? State::ON : State::OFF; }
@@ -71,5 +84,9 @@ namespace Mycila {
       gpio_num_t _greenPin = GPIO_NUM_NC;
       gpio_num_t _yellowPin = GPIO_NUM_NC;
       gpio_num_t _redPin = GPIO_NUM_NC;
+
+#ifdef MYCILA_NEOPIXEL_SUPPORT
+      Adafruit_NeoPixel* _strip = nullptr;
+#endif
   };
 } // namespace Mycila
