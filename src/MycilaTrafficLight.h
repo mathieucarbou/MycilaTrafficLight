@@ -26,10 +26,11 @@ namespace Mycila {
       };
 
     public:
-      void begin(const int8_t greenPin, const int8_t yellowPin, const int8_t redPin);
+      bool begin(const int8_t greenPin, const int8_t yellowPin, const int8_t redPin);
       void end();
 
-      bool isEnabled() const { return _greenPin != GPIO_NUM_NC || _yellowPin != GPIO_NUM_NC || _redPin != GPIO_NUM_NC; }
+      // indicates whether the traffic light is enabled with backed GPIO pins
+      bool isEnabled() const { return _gpioEnabled; }
 
       inline void setAllOn() { set(State::ON, State::ON, State::ON); }
       inline void setAllOff() { set(State::OFF, State::OFF, State::OFF); }
@@ -61,11 +62,14 @@ namespace Mycila {
       gpio_num_t getRedPin() const { return _redPin; }
 
     private:
-      gpio_num_t _greenPin = GPIO_NUM_NC;
-      gpio_num_t _yellowPin = GPIO_NUM_NC;
-      gpio_num_t _redPin = GPIO_NUM_NC;
       bool _green = false;
       bool _yellow = false;
       bool _red = false;
+
+      bool _gpioEnabled = false;
+
+      gpio_num_t _greenPin = GPIO_NUM_NC;
+      gpio_num_t _yellowPin = GPIO_NUM_NC;
+      gpio_num_t _redPin = GPIO_NUM_NC;
   };
 } // namespace Mycila

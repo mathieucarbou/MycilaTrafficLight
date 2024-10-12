@@ -25,48 +25,62 @@ extern Mycila::Logger logger;
                                                (((1ULL << (gpio_num)) & SOC_GPIO_VALID_OUTPUT_GPIO_MASK) != 0))
 #endif
 
-void Mycila::TrafficLight::begin(const int8_t greenPin, const int8_t yellowPin, const int8_t redPin) {
+bool Mycila::TrafficLight::begin(const int8_t greenPin, const int8_t yellowPin, const int8_t redPin) {
+  if (_gpioEnabled) {
+    LOGW(TAG, "Traffic light already enabled");
+    return false;
+  }
+
   if (GPIO_IS_VALID_OUTPUT_GPIO(greenPin)) {
     _greenPin = (gpio_num_t)greenPin;
     LOGI(TAG, "Enable Green LED on pin: %" PRId8, greenPin);
-    pinMode(_greenPin, OUTPUT);
   } else {
     LOGE(TAG, "Invalid Green LED pin: %" PRId8, greenPin);
     _greenPin = GPIO_NUM_NC;
+    return false;
   }
 
   if (GPIO_IS_VALID_OUTPUT_GPIO(yellowPin)) {
     _yellowPin = (gpio_num_t)yellowPin;
     LOGI(TAG, "Enable Yellow LED on pin: %" PRId8, yellowPin);
-    pinMode(_yellowPin, OUTPUT);
   } else {
     LOGE(TAG, "Invalid Yellow LED pin: %" PRId8, yellowPin);
+    _greenPin = GPIO_NUM_NC;
     _yellowPin = GPIO_NUM_NC;
+    return false;
   }
 
   if (GPIO_IS_VALID_OUTPUT_GPIO(redPin)) {
     _redPin = (gpio_num_t)redPin;
     LOGI(TAG, "Enable Red LED on pin: %" PRId8, redPin);
-    pinMode(_redPin, OUTPUT);
   } else {
     LOGE(TAG, "Invalid Red LED pin: %" PRId8, redPin);
+    _greenPin = GPIO_NUM_NC;
+    _yellowPin = GPIO_NUM_NC;
     _redPin = GPIO_NUM_NC;
+    return false;
   }
+
+  pinMode(_greenPin, OUTPUT);
+  pinMode(_yellowPin, OUTPUT);
+  pinMode(_redPin, OUTPUT);
+
+  _gpioEnabled = true;
+  return true;
 }
 
 void Mycila::TrafficLight::end() {
   set(State::OFF, State::OFF, State::OFF);
 
-  if (_greenPin != GPIO_NUM_NC)
+  if (_gpioEnabled) {
     digitalWrite(_greenPin, LOW);
-  if (_yellowPin != GPIO_NUM_NC)
     digitalWrite(_yellowPin, LOW);
-  if (_redPin != GPIO_NUM_NC)
     digitalWrite(_redPin, LOW);
 
-  _greenPin = GPIO_NUM_NC;
-  _yellowPin = GPIO_NUM_NC;
-  _redPin = GPIO_NUM_NC;
+    _greenPin = GPIO_NUM_NC;
+    _yellowPin = GPIO_NUM_NC;
+    _redPin = GPIO_NUM_NC;
+  }
 }
 
 void Mycila::TrafficLight::set(State green, State yellow, State red) {
@@ -77,12 +91,11 @@ void Mycila::TrafficLight::set(State green, State yellow, State red) {
   if (red != State::NONE)
     _red = red == State::ON;
 
-  if (_greenPin != GPIO_NUM_NC)
+  if (_gpioEnabled) {
     digitalWrite(_greenPin, _green ? HIGH : LOW);
-  if (_yellowPin != GPIO_NUM_NC)
     digitalWrite(_yellowPin, _yellow ? HIGH : LOW);
-  if (_redPin != GPIO_NUM_NC)
     digitalWrite(_redPin, _red ? HIGH : LOW);
+  }
 }
 
 #ifdef MYCILA_JSON_SUPPORT
