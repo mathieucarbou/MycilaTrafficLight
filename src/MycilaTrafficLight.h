@@ -8,12 +8,12 @@
 #include <esp32-hal-gpio.h>
 
 #ifdef MYCILA_JSON_SUPPORT
-#include <ArduinoJson.h>
+  #include <ArduinoJson.h>
 #endif
 
-#define MYCILA_TRAFFIC_LIGHT_VERSION "1.0.0"
-#define MYCILA_TRAFFIC_LIGHT_VERSION_MAJOR 1
-#define MYCILA_TRAFFIC_LIGHT_VERSION_MINOR 0
+#define MYCILA_TRAFFIC_LIGHT_VERSION          "1.0.0"
+#define MYCILA_TRAFFIC_LIGHT_VERSION_MAJOR    1
+#define MYCILA_TRAFFIC_LIGHT_VERSION_MINOR    0
 #define MYCILA_TRAFFIC_LIGHT_VERSION_REVISION 0
 
 namespace Mycila {
