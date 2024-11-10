@@ -1,6 +1,6 @@
 {
   "name": "MycilaTrafficLight",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "ESP32 / Arduino Library for Traffic Light LEDs",
   "homepage": "https://github.com/mathieucarbou/MycilaTrafficLight",
   "repository": {
