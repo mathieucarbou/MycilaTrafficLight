@@ -157,6 +157,15 @@ void Mycila::TrafficLight::setBrightness(const float brightness) {
 #endif
 }
 
+String Mycila::TrafficLight::toString() const {
+  String result;
+  result.reserve(6);
+  result.concat(isGreenOn() ? "🟢 " : "⚫ ");
+  result.concat(isYellowOn() ? "🟡 " : "⚫ ");
+  result.concat(isRedOn() ? "🔴" : "⚫");
+  return result;
+}
+
 #ifdef MYCILA_JSON_SUPPORT
 void Mycila::TrafficLight::toJson(const JsonObject& root) const {
   root["code"] = toString();

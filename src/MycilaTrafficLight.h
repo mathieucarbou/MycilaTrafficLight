@@ -41,12 +41,12 @@ namespace Mycila {
       // indicates whether the traffic light is enabled with backed GPIO pins
       bool isEnabled() const;
 
-      inline void setAllOn() { set(State::ON, State::ON, State::ON); }
-      inline void setAllOff() { set(State::OFF, State::OFF, State::OFF); }
+      void setAllOn() { set(State::ON, State::ON, State::ON); }
+      void setAllOff() { set(State::OFF, State::OFF, State::OFF); }
 
-      inline void setGreen(bool state) { set(state ? State::ON : State::OFF, State::NONE, State::NONE); }
-      inline void setYellow(bool state) { set(State::NONE, state ? State::ON : State::OFF, State::NONE); }
-      inline void setRed(bool state) { set(State::NONE, State::NONE, state ? State::ON : State::OFF); }
+      void setGreen(bool state) { set(state ? State::ON : State::OFF, State::NONE, State::NONE); }
+      void setYellow(bool state) { set(State::NONE, state ? State::ON : State::OFF, State::NONE); }
+      void setRed(bool state) { set(State::NONE, State::NONE, state ? State::ON : State::OFF); }
       void set(State green, State yellow, State red);
 
       // set the brightness of the NeoPixel strip
@@ -57,14 +57,14 @@ namespace Mycila {
       State getYellow() const { return _yellow ? State::ON : State::OFF; }
       State getRed() const { return _red ? State::ON : State::OFF; }
 
-      inline bool isGreenOn() const { return getGreen() == State::ON; }
-      inline bool isYellowOn() const { return getYellow() == State::ON; }
-      inline bool isRedOn() const { return getRed() == State::ON; }
+      bool isGreenOn() const { return getGreen() == State::ON; }
+      bool isYellowOn() const { return getYellow() == State::ON; }
+      bool isRedOn() const { return getRed() == State::ON; }
 
-      inline bool areAllOn() const { return isGreenOn() && isYellowOn() && isRedOn(); }
-      inline bool areAllOff() const { return !isGreenOn() && !isYellowOn() && !isRedOn(); }
+      bool areAllOn() const { return isGreenOn() && isYellowOn() && isRedOn(); }
+      bool areAllOff() const { return !isGreenOn() && !isYellowOn() && !isRedOn(); }
 
-      inline String toString() const { return String(isGreenOn() ? "🟢 " : "⚫ ") + (isYellowOn() ? "🟡 " : "⚫ ") + (isRedOn() ? "🔴" : "⚫"); }
+      String toString() const;
 
 #ifdef MYCILA_JSON_SUPPORT
       void toJson(const JsonObject& root) const;
