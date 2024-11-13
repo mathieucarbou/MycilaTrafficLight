@@ -4,6 +4,8 @@
  */
 #include <MycilaTrafficLight.h>
 
+#include <string>
+
 #ifdef MYCILA_LOGGER_SUPPORT
   #include <MycilaLogger.h>
 extern Mycila::Logger logger;
