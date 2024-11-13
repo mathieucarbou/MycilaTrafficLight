@@ -157,12 +157,12 @@ void Mycila::TrafficLight::setBrightness(const float brightness) {
 #endif
 }
 
-String Mycila::TrafficLight::toString() const {
-  String result;
+std::string Mycila::TrafficLight::toString() const {
+  std::string result;
   result.reserve(6);
-  result.concat(isGreenOn() ? "🟢 " : "⚫ ");
-  result.concat(isYellowOn() ? "🟡 " : "⚫ ");
-  result.concat(isRedOn() ? "🔴" : "⚫");
+  result.append(isGreenOn() ? "🟢 " : "⚫ ");
+  result.append(isYellowOn() ? "🟡 " : "⚫ ");
+  result.append(isRedOn() ? "🔴" : "⚫");
   return result;
 }
 

@@ -8,8 +8,9 @@ void setup() {
   while (!Serial)
     continue;
 
-  lights.setAllOn();                             // current won't pass
+  lights.setAllOn(); // current won't pass
 }
 
 void loop() {
+  vTaskDelete(NULL);
 }

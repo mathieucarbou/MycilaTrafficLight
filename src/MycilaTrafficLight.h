@@ -4,8 +4,9 @@
  */
 #pragma once
 
-#include <WString.h>
 #include <esp32-hal-gpio.h>
+
+#include <string>
 
 #ifdef MYCILA_JSON_SUPPORT
   #include <ArduinoJson.h>
@@ -64,7 +65,7 @@ namespace Mycila {
       bool areAllOn() const { return isGreenOn() && isYellowOn() && isRedOn(); }
       bool areAllOff() const { return !isGreenOn() && !isYellowOn() && !isRedOn(); }
 
-      String toString() const;
+      std::string toString() const;
 
 #ifdef MYCILA_JSON_SUPPORT
       void toJson(const JsonObject& root) const;
