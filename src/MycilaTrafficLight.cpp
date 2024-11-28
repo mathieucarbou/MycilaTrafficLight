@@ -36,6 +36,7 @@ bool Mycila::TrafficLight::begin(const int8_t greenPin, const int8_t yellowPin, 
   if (GPIO_IS_VALID_OUTPUT_GPIO(greenPin)) {
     _greenPin = (gpio_num_t)greenPin;
     LOGI(TAG, "Enable Green LED on pin: %" PRId8, greenPin);
+    pinMode(_greenPin, OUTPUT);
   } else {
     LOGE(TAG, "Invalid Green LED pin: %" PRId8, greenPin);
     _greenPin = GPIO_NUM_NC;
@@ -45,6 +46,7 @@ bool Mycila::TrafficLight::begin(const int8_t greenPin, const int8_t yellowPin, 
   if (GPIO_IS_VALID_OUTPUT_GPIO(yellowPin)) {
     _yellowPin = (gpio_num_t)yellowPin;
     LOGI(TAG, "Enable Yellow LED on pin: %" PRId8, yellowPin);
+    pinMode(_yellowPin, OUTPUT);
   } else {
     LOGE(TAG, "Invalid Yellow LED pin: %" PRId8, yellowPin);
     _greenPin = GPIO_NUM_NC;
@@ -55,6 +57,7 @@ bool Mycila::TrafficLight::begin(const int8_t greenPin, const int8_t yellowPin, 
   if (GPIO_IS_VALID_OUTPUT_GPIO(redPin)) {
     _redPin = (gpio_num_t)redPin;
     LOGI(TAG, "Enable Red LED on pin: %" PRId8, redPin);
+    pinMode(_redPin, OUTPUT);
   } else {
     LOGE(TAG, "Invalid Red LED pin: %" PRId8, redPin);
     _greenPin = GPIO_NUM_NC;
@@ -63,11 +66,7 @@ bool Mycila::TrafficLight::begin(const int8_t greenPin, const int8_t yellowPin, 
     return false;
   }
 
-  pinMode(_greenPin, OUTPUT);
-  pinMode(_yellowPin, OUTPUT);
-  pinMode(_redPin, OUTPUT);
-
-  _gpioEnabled = true;
+  _gpioEnabled = _greenPin != GPIO_NUM_NC && _yellowPin != GPIO_NUM_NC && _redPin != GPIO_NUM_NC;
   return true;
 }
 
