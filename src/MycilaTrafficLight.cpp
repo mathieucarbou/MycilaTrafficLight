@@ -99,6 +99,8 @@ void Mycila::TrafficLight::end() {
   set(State::OFF, State::OFF, State::OFF);
 
   if (_gpioEnabled) {
+    _gpioEnabled = false;
+
     digitalWrite(_greenPin, LOW);
     digitalWrite(_yellowPin, LOW);
     digitalWrite(_redPin, LOW);
