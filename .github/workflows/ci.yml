@@ -99,6 +99,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install --upgrade platformio
+          pip install --upgrade intelhex
       
       - run: PLATFORMIO_SRC_DIR="examples/TrafficLight" PIO_BOARD=${{ matrix.board }} pio run -e ${{ matrix.env }}
 
@@ -141,6 +142,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install --upgrade platformio
+          pip install --upgrade intelhex
       
       - run: PLATFORMIO_SRC_DIR="examples/TrafficLightJson" PIO_BOARD=${{ matrix.board }} pio run -e ${{ matrix.env }}
 
@@ -183,5 +185,6 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install --upgrade platformio
+          pip install --upgrade intelhex
       
       - run: PLATFORMIO_SRC_DIR="examples/TrafficLightNeoPixel" PIO_BOARD=${{ matrix.board }} pio run -e ${{ matrix.env }}
